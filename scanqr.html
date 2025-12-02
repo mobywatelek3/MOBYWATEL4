@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://fishsky.pl/scan?card_token=ostOoJBVOFzFhMswgCqq -->
+<html lang="pl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiIiwic2hvcnRfbmFtZSI6IiIsInRoZW1lX2NvbG9yIjoiIzEwMTMxNyIsImJhY2tncm91bmRfY29sb3IiOiIjMTAxMzE3IiwiZGlzcGxheSI6InN0YW5kYWxvbmUifQ==">
+    
+    <title>mObywatel</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="assetsdiff/main.css">
+    <link rel="stylesheet" href="./scanqr_files/scan.css">
+    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/U7TRg0V.png">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/U7TRg0V.png">
+    <link rel="shortcut icon" href="https://i.imgur.com/U7TRg0V.png">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <script src="./scanqr_files/html5-qrcode"></script>
+</head>
+<body class="has-blur-topbar">
+    <div class="top_grid top_grid_fixed">
+        <div class="action_grid_fixed">
+            <img src="./scanqr_files/back_blue.png" class="back_img">
+            <p onclick="sendTo('qr')" class="back_text">Kod QR</p>
+        </div>
+        <p class="title_text_fixed">Zeskanuj kod QR</p>
+        <img src="./scanqr_files/help.png" class="help_img">
+    </div>
+
+    <div class="container">
+        <p class="description">Umieść kod QR w ramce, aby go zeskanować.</p>
+        
+        <div class="scan-frame">
+            <div class="warning-box">
+                <div class="warning-content">
+                    <span class="warning-icon">!</span>
+                    <p class="warning-text">Upewnij się, że kod QR pochodzi z wiarygodnego źródła.</p>
+                    <span class="warning-close">×</span>
+                </div>
+            </div>
+            <div id="reader" style="position: relative;"><video muted="true" playsinline="" style="width: 414px; display: block;"></video><canvas id="qr-canvas" width="414" height="563" style="width: 414px; height: 563px; display: none;"></canvas><div style="display: none; position: absolute; top: 0px; z-index: 1; background: rgba(9, 9, 9, 0.46); color: rgb(255, 236, 236); text-align: center; width: 100%;">Scanner paused</div></div>
+            <div class="frame-border">
+                <div class="corner top-left"></div>
+                <div class="corner top-right"></div>
+                <div class="corner bottom-left"></div>
+                <div class="corner bottom-right"></div>
+            </div>
+        </div>
+
+        <button class="manual-input">Wpisz kod</button>
+    </div>
+
+    <div class="error">
+        <div class="opacity"></div>
+        <div class="error_box" style="display: none;">
+        </div>
+    </div>
+
+   <div class="bottom_bar">
+        <div class="bottom_bar_grid">
+            <div class="bottom_element_grid" send="home">
+                <div class="bottom_element_image home"></div>
+                <p class="bottom_element_text ">Dokumenty</p>
+            </div>
+            <div class="bottom_element_grid" send="services">
+                <div class="bottom_element_image services"></div>
+                <p class="bottom_element_text">Usługi</p>
+            </div>
+            <div class="bottom_element_grid" send="qr">
+                <div class="bottom_element_image qr_open qr"></div>
+                <p class="bottom_element_text open">Kod QR</p>
+            </div>
+            <div class="bottom_element_grid" send="more">
+                <div class="bottom_element_image more"></div>
+                <p class="bottom_element_text ">Więcej</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="code-input-container">
+        <div class="code-input-overlay"></div>
+        <div class="code-input-box">
+            <div class="code-input-header">
+                <span class="code-input-title">Kod</span>
+                <span class="code-input-close" onclick="closeCodeInput()">Zamknij</span>
+            </div>
+            <p class="code-input-subtitle">Wpisz lub wklej kod.</p>
+            <div class="code-input-field-container">
+                <input type="number" class="code-input-field" placeholder=" " maxlength="6">
+            </div>
+            <button class="code-input-submit" onclick="submitCode()" disabled="">Dalej</button>
+        </div>
+    </div>
+
+    <script src="./scanqr_files/bar.js.pobrane"></script>
+    <script>
+
+        if (localStorage.getItem('top') === 'card'){
+            var back = document.querySelector('.back_text_fixed');
+            back.innerHTML = 'mDowód';
+            back.onclick = () => {sendTo('card')};
+        }
+
+        function closeWarning() {
+            document.querySelector('.warning-box').style.display = 'none';
+        }
+
+        document.querySelector('.warning-close').addEventListener('click', closeWarning);
+
+        function showError() {
+            const errorBox = document.querySelector('.error_box');
+            errorBox.style.display = 'block';
+            errorBox.innerHTML = `
+                <div class="loading"></div>
+                <p class="error_title">Ładowanie...</p>
+            `;
+            
+            document.querySelector('.error').classList.add('error_open');
+            
+            setTimeout(() => {
+                errorBox.innerHTML = `
+                    <div class="error_icon">
+                        <svg width="70" height="70" viewBox="0 0 70 70">
+                            <circle cx="35" cy="35" r="35" fill="#FF3B30"/>
+                            <path d="M47 23L23 47M23 23L47 47" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <p class="error_title">Wystąpił błąd</p>
+                    <p class="error_description">Nie możemy wyświetlić Twoich danych.<br>Spróbuj ponownie później.</p>
+                    <button class="error_button retry" onclick="retryAction()">Spróbuj ponownie</button>
+                    <button class="error_button back" onclick="sendTo('qr')">Wróć</button>
+                `;
+            }, 2000);
+        }
+
+        function retryAction() {
+            showError();
+        }
+
+        function onScanSuccess(decodedText) {
+            fetch('/qr/validate?' + params, {
+                method: 'POST',
+                body: JSON.stringify({
+                    'qrCode': decodedText
+                })
+            })
+            .then(response => response.json())
+            .then(result => {
+                var found = result.found;
+
+                html5QrCode.stop();
+                if (found){
+                    askForPermission(null, decodedText);
+                }else{
+                    showError();
+                }
+            })
+        }
+
+        function onScanFailure(error) {
+            return;
+        }
+
+        let html5QrCode = new Html5Qrcode("reader");
+        html5QrCode.start(
+            { facingMode: { exact: "environment" } },
+            {
+                fps: 10,
+                videoConstraints: {
+                    width: { ideal: 1920 },
+                    height: { ideal: 1080 },
+                    facingMode: "environment"
+                }
+            },
+            onScanSuccess,
+            onScanFailure
+        );
+
+        document.querySelector('.manual-input').addEventListener('click', () => {
+            document.querySelector('.code-input-container').classList.add('active');
+            document.querySelector('.code-input-field').focus();
+        });
+
+        function closeCodeInput() {
+            document.querySelector('.code-input-container').classList.remove('active');
+            setTimeout(() => {
+                document.querySelector('.code-input-field').value = '';
+                document.querySelector('.code-input-field-container').classList.remove('error');
+            }, 300);
+        }
+
+        document.querySelector('.code-input-overlay').addEventListener('click', closeCodeInput);
+
+        function submitCode() {
+            const input = document.querySelector('.code-input-field');
+            const value = input.value;
+            
+            if (value.length === 6) {
+
+                fetch('/qr/validate?' + params, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        'code': value
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    var found = result.found;
+
+                    closeCodeInput();
+                    if (found){
+                        askForPermission(value, null);
+                    }else{
+                        showError();
+                    }
+                })
+            }
+        }
+
+        function askForPermission(code, qrCode){
+            if (code){
+                localStorage.setItem('code', code);
+            }else if (qrCode){
+                localStorage.setItem('qrCode', qrCode);
+            }
+
+            sendTo('share')
+        }
+
+        document.querySelector('.code-input-field').addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+            
+            const submitButton = document.querySelector('.code-input-submit');
+            submitButton.disabled = e.target.value.length !== 6;
+        });
+    </script>
+    <script src="assetsdiff/manifest.js.pobrane"></script>
+    <script src="assetsdiff/cache.js.pobrane"></script>
+
+</body></html>

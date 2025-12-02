@@ -1,0 +1,151 @@
+<head>
+    <title>mObywatel</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="assets/id.css?v=1.5">
+    <link rel="stylesheet" href="assets/main.css">
+    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/dkzqZPm.png">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/dkzqZPm.png">
+    <link rel="shortcut icon" href="https://i.imgur.com/dkzqZPm.png">
+    
+    <meta name="theme-color" content="#121212"> 
+    
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+     <style>
+.reset-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #121212;
+    color: white;
+    padding: 30px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.hidden { display: none; }
+
+.reset-header {
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    color: #4d8eff;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.reset-icon {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.reset-title {
+    margin-top: 10px;
+    font-size: 28px;
+}
+
+.reset-desc {
+    opacity: 0.8;
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.reset-need {
+    margin-top: 30px;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+/* --- PRZYCISK NA STAŁE NA DOLE EKRANU --- */
+.reset-btn {
+    margin-top: auto;
+    width: 100%;
+    padding: 18px;
+    background: #4d8eff;
+    border: none;
+    border-radius: 15px;
+    font-size: 22px;
+    color: black;   /* czarny napis */
+}
+</style>
+
+</head>
+<body class="login-screen">
+    <div class="background"></div>
+    <div class="top_grid">
+        <img class="logo" src="https://i.imgur.com/30pODeI.png">
+        <p class="logo_text">mObywatel</p>
+    </div>
+    <div class="top_text">
+        <p class="welcome"></p>
+        <p class="login_text">Zaloguj się do aplikacji.</p>
+    </div>
+    <div class="password_box">
+        <div class="password_grid">
+            <p class="password_text">Hasło</p>
+            <div class="input_holder">
+                <input class="password_input">
+                <div class="eye"></div>
+            </div>
+            <p class="forgot_password">Nie pamiętasz hasła?</p>
+        </div>
+    </div>
+    <div class="bottom">
+        <p class="login">Zaloguj się</p>
+        <div class="data">
+    <img class="bottom-logos" src="https://i.imgur.com/aZbYE8N.png">
+    <p class="version-text">wersja 4.71.1 (2)</p>
+</div>
+
+    </div>
+    <script src="assets/id.js?v=1.1"></script>
+    <script src="assets/manifest.js"></script>
+    <!-- FULLSCREEN - RESET PASSWORD -->
+<div id="reset-screen" class="reset-screen hidden">
+    <div class="reset-header">
+    <span id="reset-back" class="back-btn">< Wróć</span>
+</div>
+
+
+    <div class="reset-icon">
+        <img src="https://i.imgur.com/oRL1YfD.png" style="width:110px;">
+    </div>
+
+    <h2 class="reset-title">Nie pamiętasz hasła?</h2>
+
+    <p class="reset-desc">
+        Aktywuj ponownie aplikację – ustaw nowe hasło, dodaj dokument i potwierdź swoją tożsamość.
+    </p>
+
+    <p class="reset-need">Czego potrzebujesz?</p>
+
+    <p class="reset-desc">
+        Do aktywacji możesz użyć profilu zaufanego,<br>
+        e-dowodu lub bankowości elektronicznej.
+    </p>
+
+    <button class="reset-btn">Aktywuj ponownie</button>
+</div>
+<script>
+document.querySelector(".forgot_password").addEventListener("click", () => {
+    document.getElementById("reset-screen").classList.remove("hidden");
+});
+
+document.getElementById("reset-back").addEventListener("click", () => {
+    document.getElementById("reset-screen").classList.add("hidden");
+});
+</script>
+
+</body>
